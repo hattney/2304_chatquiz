@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아재 개그 퀴즈</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url("https://source.unsplash.com/random");
+            background-size: cover;
+        }
+        .quiz-container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            width: 600px;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        .hidden {
+            display: none;
+        }
+        input[type="text"] {
+            margin-bottom: 10px;
+            width: 250px;
+            padding: 5px;
+        }
+        button {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #444;
+        }
+        .signature {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>아재 개그 퀴즈</h1>
+        <div id="question1" class="question">
+            <h2>문제 1: 소나무가 삐치면?</h2>
+            <input type="text" id="answer1">
+            <br>
+            <button onclick="checkAnswer(1, '칫솔')">정답 제출</button>
+        </div>
+        <div id="question2" class="question hidden">
+            <h2>문제 2: 전화기로 지은 건물은?</h2>
+            <input type="text" id="answer2">
+            <br>
+            <button onclick="checkAnswer(2, '콜로세움')">정답 제출</button>
+        </div>
+        <div id="question3" class="question hidden">
+            <h2>문제 3: 얼음이 죽으면?</h2>
+            <input type="text" id="answer3">
+            <br>
+            <button onclick="checkAnswer(3, '다이빙')">정답 제출</button>
+        </div>
+        <div id="success" class="question hidden">
+            <h2>문제를 모두 맞추셨습니다. 축하합니다🎉</h2>
+            <button onclick="location.reload()">메인 페이지로 돌아가기</button>
+        </div>
+    </div>
+    <div class="signature">PGD @hattney</div>
+    <script>
+        const answerExplanations = [
+            '소나무(솔)이 칫하고 삐져서 칫솔입니다.',
+            '전화(Call)로 지어진 건물이라서 콜로세움입니다.',
+            '얼음(빙)이 죽어서(Die) 다이빙입니다.'
+        ];
+
+        let wrongAnswersCount = 0;
+
+        function checkAnswer(questionNumber, correctAnswer) {
+            const answer = document.getElementById(`answer${questionNumber}`).value.trim();
+            if (answer === correctAnswer) {
+                alert("정답입니다!");
+                wrongAnswersCount = 0;
+                document.getElementById(`question${questionNumber}`).classList.add("hidden");
+                if (questionNumber === 3) {
+                    document.getElementById("success").classList.remove("hidden");
+                } else {
+                    document.getElementById(`question${questionNumber + 1}`).classList.remove("hidden");
+                }
+            } else {
+                wrongAnswersCount++;
+                if (wrongAnswersCount >= 2) {
+                    alert(`정답은 "${correctAnswer}"입니다. 이유: ${answerExplanations[questionNumber - 1]}`);
+                    wrongAnswersCount = 0;
+                    document.getElementById(`question${questionNumber}`).classList.add("hidden");
+                    if (questionNumber === 3) {
+                        document.getElementById("success").classList.remove("hidden");
+                    } else {
+                        document.getElementById(`question${questionNumber + 1}`).classList.remove("hidden");
+                    }
+                } else {
+                    alert("틀렸습니다. 다시 시도하세요.");
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+
